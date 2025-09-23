@@ -1,2 +1,4 @@
 my_venv/
 .idea/
+my_project/__pycache__/
+__pycache__/
