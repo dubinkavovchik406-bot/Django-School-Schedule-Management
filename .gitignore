@@ -1,0 +1,5 @@
+my_project/__pycache__/
+__pycache__/
+db.sqlite3
+.idea/
+my_venv/
