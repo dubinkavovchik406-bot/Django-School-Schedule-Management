@@ -26,11 +26,14 @@ def delete_subject(name):
         print(f"Предмет {name} не знайдено")
 
 def update_subject(new_name, subject_id):
-    updated_count = Subject.objects.filter(id=subject_id).update(name=new_name)
-    if updated_count > 0:
-        print(f"Предмет з id {subject_id} успішно оновлено")
+    if Subject.objects.filter(name=new_name).exclude(id=subject_id).exists():
+        print(f"Предмет з назвою {new_name} вже існує.")
     else:
-        print(f"Предмет з id {subject_id} не знайдено")
+        updated_count = Subject.objects.filter(id=subject_id).update(name=new_name)
+        if updated_count > 0:
+            print(f"Предмет з id {subject_id} успішно оновлено")
+        else:
+            print(f"Предмет з id {subject_id} не знайдено")
 
 
 created_teacher = add_teacher("Ілля")
