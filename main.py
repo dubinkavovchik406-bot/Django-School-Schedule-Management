@@ -44,4 +44,11 @@ def add_my_class(name, student_id):
         print(f"Класс {name} вже існує")
     return my_class
 
+def add_student(name):
+    student, created = Student.objects.get_or_create(name=name)
+    if created is True:
+        print(f"Студент {name} успішно створений")
+    elif created is False:
+        print(f"Студент {name} вже існує")
+    return student
 
