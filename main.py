@@ -59,9 +59,20 @@ def delete_class(name):
     else:
         print(f"Клас {name} не знайдено")
 
+def update_class(new_name, class_id):
+    if Class.objects.filter(name=new_name).exclude(id=class_id).exists():
+        print(f"Класс з назвою {new_name} вже існує.")
+    else:
+        updated_count = Class.objects.filter(id=class_id).update(name=new_name)
+        if updated_count > 0:
+            print(f"Класс з id {class_id} успішно оновлено")
+        else:
+            print(f"Класс з id {class_id} не знайдено")
+
 new_student = add_student("Вова")
 new_class = add_my_class("10-Б", new_student.id)
 delete_class("9-Б")
+update_class("10-H", 2)
 
 # created_teacher = add_teacher("Ілля")
 # created_subject = add_subject("Математика", created_teacher.id)
