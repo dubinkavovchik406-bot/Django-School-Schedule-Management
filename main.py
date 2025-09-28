@@ -10,14 +10,6 @@ def add_subject(name, description):
         print(f"Предмет {name} вже існує")
     return subject
 
-def add_teacher(name, surname, subject):
-    teacher, created = Teacher.objects.get_or_create(name=name, surname=surname, defaults={"subject": subject})
-    if created is True:
-        print(f"Вчитель {name} успішно створений")
-    elif created is False:
-        print(f"Вчитель {name} вже існує")
-    return teacher
-
 def delete_subject(name):
     deleted_count, _ = Subject.objects.filter(name=name).delete()
     if deleted_count > 0:
@@ -36,6 +28,24 @@ def update_subject(new_name, subject, new_description=''):
         else:
             print(f"Предмет з id {subject.id} не знайдено")
 
+
+def add_teacher(name, surname, subject):
+    teacher, created = Teacher.objects.get_or_create(name=name, surname=surname, defaults={"subject": subject})
+    if created is True:
+        print(f"Вчитель {name} {surname} з предмету {subject} успішно створений")
+    elif created is False:
+        print(f"Вчитель {name} {surname} з предмету {subject} вже існує")
+    return teacher
+
+def add_student(name, surname, student_class):
+    student, created = Student.objects.get_or_create(name=name, surname=surname, defaults={"student_class": student_class})
+    if created is True:
+        print(f"Студент {name} {surname} з классу {student_class} успішно створений")
+    elif created is False:
+        print(f"Студент {name} {surname} з классу {student_class} вже існує")
+    return student
+
+
 def add_my_class(name, year_of_study):
     my_class, created = Class.objects.get_or_create(name=name, defaults={"year_of_study": year_of_study})
     if created is True:
@@ -43,14 +53,6 @@ def add_my_class(name, year_of_study):
     elif created is False:
         print(f"Класс {name} вже існує")
     return my_class
-
-def add_student(name, surname, student_class):
-    student, created = Student.objects.get_or_create(name=name, surname=surname, defaults={"student_class": student_class})
-    if created is True:
-        print(f"Студент {name} успішно створений")
-    elif created is False:
-        print(f"Студент {name} вже існує")
-    return student
 
 def delete_class(name):
     deleted_count, _ = Class.objects.filter(name=name).delete()
@@ -69,4 +71,47 @@ def update_class(new_name, new_year_of_study, my_class):
             print(f"Класс з id {my_class_id} успішно оновлено")
         else:
             print(f"Класс з id {my_class_id} не знайдено")
+
+flag = True
+print("Write 0 if you want to break cycle")
+print("Write 1 if you want to add new subject")
+print("Write 2 if you want to add new class")
+print("Write 3 if you want to add new teacher")
+print("Write 4 if you want to add new student ")
+
+while flag is True:
+    question = int(input("Write the operation number"))
+
+    if question == 0:
+        print("You break the cycling")
+        flag = False
+
+
+    elif question == 1:
+        my_name = input("Write the name of your subject")
+        my_description = input("Write the description of your subject")
+        add_subject(name=my_name, description=my_description)
+
+    elif question == 2:
+        my_name = input("Write the name of your class")
+        my_year_of_study = int(input("Write the year of study of your class"))
+        add_my_class(my_name, my_year_of_study)
+
+    elif question == 3:
+        my_name = input("Write the name of your teacher")
+        my_surname = input("Write the surname of your teacher")
+        name_of_the_subject = input("Write the name of your teacher's subject")
+
+        my_subject = Subject.objects.get(name=name_of_the_subject)
+        add_teacher(name=my_name, surname=my_surname, subject=my_subject)
+
+    elif question == 4:
+        my_name = input("Write the name of your student")
+        my_surname = input("Write the surname of your student")
+        name_of_the_class = input("Write the name of your student's class")
+
+        my_student_class = Class.objects.get(name=name_of_the_class)
+        added_student = add_student(name=my_name, surname=my_surname, student_class=my_student_class)
+
+
 
