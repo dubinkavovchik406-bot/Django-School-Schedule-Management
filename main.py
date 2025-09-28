@@ -1,6 +1,6 @@
 import django_SetUp
 
-from my_project.models import Teacher, Subject
+from my_project.models import Teacher, Subject, Student, Class
 
 def add_subject(name, teacher_id):
     subject, created = Subject.objects.get_or_create(name=name, teacher_id=teacher_id)
@@ -36,6 +36,12 @@ def update_subject(new_name, subject_id):
             print(f"Предмет з id {subject_id} не знайдено")
 
 
-created_teacher = add_teacher("Ілля")
-created_subject = add_subject("Математика", created_teacher.id)
-update_subject("Фізика", created_subject.id)
+def add_my_class(name, student_id):
+    my_class, created = Class.objects.get_or_create(name=name, student_id=student_id)
+    if created is True:
+        print(f"Класс {name} успішно створений")
+    elif created is False:
+        print(f"Класс {name} вже існує")
+    return my_class
+
+
