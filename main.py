@@ -2,16 +2,16 @@ import django_SetUp
 
 from my_project.models import Teacher, Subject, Student, Class
 
-def add_subject(name, teacher_id):
-    subject, created = Subject.objects.get_or_create(name=name, teacher_id=teacher_id)
+def add_subject(name, description):
+    subject, created = Subject.objects.get_or_create(name=name, defaults={"description": description})
     if created is True:
         print(f"Предмет {name} успішно створений")
     elif created is False:
         print(f"Предмет {name} вже існує")
     return subject
 
-def add_teacher(name):
-    teacher, created = Teacher.objects.get_or_create(name=name)
+def add_teacher(name, surname, subject):
+    teacher, created = Teacher.objects.get_or_create(name=name, surname=surname, defaults={"subject": subject})
     if created is True:
         print(f"Вчитель {name} успішно створений")
     elif created is False:
@@ -25,27 +25,27 @@ def delete_subject(name):
     else:
         print(f"Предмет {name} не знайдено")
 
-def update_subject(new_name, subject_id):
+def update_subject(new_name, subject, new_description=''):
+    subject_id = subject.id
     if Subject.objects.filter(name=new_name).exclude(id=subject_id).exists():
         print(f"Предмет з назвою {new_name} вже існує.")
     else:
-        updated_count = Subject.objects.filter(id=subject_id).update(name=new_name)
+        updated_count = Subject.objects.filter(id=subject_id).update(name=new_name, description=new_description)
         if updated_count > 0:
-            print(f"Предмет з id {subject_id} успішно оновлено")
+            print(f"Предмет з id {subject.id} успішно оновлено")
         else:
-            print(f"Предмет з id {subject_id} не знайдено")
+            print(f"Предмет з id {subject.id} не знайдено")
 
-
-def add_my_class(name, student_id):
-    my_class, created = Class.objects.get_or_create(name=name, student_id=student_id)
+def add_my_class(name, year_of_study):
+    my_class, created = Class.objects.get_or_create(name=name, defaults={"year_of_study": year_of_study})
     if created is True:
         print(f"Класс {name} успішно створений")
     elif created is False:
         print(f"Класс {name} вже існує")
     return my_class
 
-def add_student(name):
-    student, created = Student.objects.get_or_create(name=name)
+def add_student(name, surname, student_class):
+    student, created = Student.objects.get_or_create(name=name, surname=surname, defaults={"student_class": student_class})
     if created is True:
         print(f"Студент {name} успішно створений")
     elif created is False:
@@ -59,21 +59,14 @@ def delete_class(name):
     else:
         print(f"Клас {name} не знайдено")
 
-def update_class(new_name, class_id):
-    if Class.objects.filter(name=new_name).exclude(id=class_id).exists():
+def update_class(new_name, new_year_of_study, my_class):
+    my_class_id = my_class.id
+    if Class.objects.filter(name=new_name).exclude(id=my_class_id).exists():
         print(f"Класс з назвою {new_name} вже існує.")
     else:
-        updated_count = Class.objects.filter(id=class_id).update(name=new_name)
+        updated_count = Class.objects.filter(id=my_class_id).update(name=new_name, year_of_study=new_year_of_study)
         if updated_count > 0:
-            print(f"Класс з id {class_id} успішно оновлено")
+            print(f"Класс з id {my_class_id} успішно оновлено")
         else:
-            print(f"Класс з id {class_id} не знайдено")
+            print(f"Класс з id {my_class_id} не знайдено")
 
-new_student = add_student("Вова")
-new_class = add_my_class("10-Б", new_student.id)
-delete_class("9-Б")
-update_class("10-H", 2)
-
-# created_teacher = add_teacher("Ілля")
-# created_subject = add_subject("Математика", created_teacher.id)
-# update_subject("Фізика", created_subject.id)
