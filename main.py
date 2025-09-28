@@ -52,3 +52,17 @@ def add_student(name):
         print(f"Студент {name} вже існує")
     return student
 
+def delete_class(name):
+    deleted_count, _ = Class.objects.filter(name=name).delete()
+    if deleted_count > 0:
+        print(f"Клас {name} успішно видалений")
+    else:
+        print(f"Клас {name} не знайдено")
+
+new_student = add_student("Вова")
+new_class = add_my_class("10-Б", new_student.id)
+delete_class("9-Б")
+
+# created_teacher = add_teacher("Ілля")
+# created_subject = add_subject("Математика", created_teacher.id)
+# update_subject("Фізика", created_subject.id)
