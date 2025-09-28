@@ -6,7 +6,7 @@ class Subject(models.Model):
     description = models.TextField(default="")
 
     def __str__(self):
-        return f"{self.name}, {self.description}"
+        return self.name
 
 class Teacher(models.Model):
     name = models.CharField(max_length=100, default="")
