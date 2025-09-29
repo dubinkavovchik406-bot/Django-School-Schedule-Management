@@ -31,3 +31,22 @@ class Student(models.Model):
 
     def __str__(self):
         return f"{self.name}, {self.surname}"
+
+class Schedule(models.Model):
+    day_of_week = models.IntegerField()
+    start_time = models.TimeField()
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
+    schedule_class = models.ForeignKey(Class, on_delete=models.CASCADE)
+    teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.day_of_week}, {self.start_time}"
+
+class Grade(models.Model):
+    grade_value = models.IntegerField()
+    date = models.DateField()
+    student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.grade_value}, {self.date}"
