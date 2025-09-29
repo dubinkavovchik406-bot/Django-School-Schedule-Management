@@ -33,7 +33,7 @@ class Student(models.Model):
         return f"{self.name}, {self.surname}"
 
 class Schedule(models.Model):
-    day_of_week = models.IntegerField()
+    day_of_week = models.CharField(max_length=100)
     start_time = models.TimeField()
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
     schedule_class = models.ForeignKey(Class, on_delete=models.CASCADE)
