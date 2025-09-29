@@ -1,5 +1,5 @@
-my_project/__pycache__/
-__pycache__/
-db.sqlite3
 .idea/
+db.sqlite3
 my_venv/
+__pycache__/
+*.pyc

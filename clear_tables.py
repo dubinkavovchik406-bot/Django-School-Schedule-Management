@@ -1,8 +1,6 @@
 import django_SetUp
 
-from my_project.models import Teacher, Subject
+from my_project.models import Subject, Class
 
 Subject.objects.all().delete()
-
-Teacher.objects.all().delete()
-
+Class.objects.all().delete()
