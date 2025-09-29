@@ -1,6 +1,7 @@
 import django_SetUp
 
-from my_project.models import Teacher, Subject, Student, Class
+from my_project.models import Teacher, Subject, Student, Class, Schedule, Grade
+from datetime import date
 
 def add_subject(name, description):
     subject, created = Subject.objects.get_or_create(name=name, defaults={"description": description})
@@ -72,12 +73,37 @@ def update_class(new_name, new_year_of_study, my_class):
         else:
             print(f"Класс з id {my_class_id} не знайдено")
 
+
+def add_schedule_entry(day_of_week, start_time, subject, schedule_class, teacher):
+    schedule, created = Schedule.objects.get_or_create(day_of_week=day_of_week, start_time=start_time,
+                                                       schedule_class=schedule_class,
+                                                       defaults={"subject": subject, "teacher": teacher})
+    if created is True:
+        print(f"Розклад у день {day_of_week} о {start_time} з предметом {subject} для классу {schedule_class} який веде вчитель {teacher} успішно створений")
+    elif created is False:
+        print(f"Розклад у {day_of_week} о {start_time} з предметом {subject}, классом {schedule_class} який веде вчитель {teacher} вже існує")
+    return schedule
+
+def add_grade(grade_value, date_str, student, subject):
+    try:
+        grade_date = date.fromisoformat(date_str)
+    except ValueError:
+        print("Введіть дату у форматі YYYY-MM-DD")
+        return None
+    grade = Grade.objects.create(grade_value=grade_value, date=grade_date, subject=subject, student=student)
+    print(f"Оцінка {grade_value}, учня {student} з предмета {subject} о {grade_date} успішно створений")
+
+    return grade
+
+
 flag = True
 print("Write 0 if you want to break cycle")
 print("Write 1 if you want to add new subject")
 print("Write 2 if you want to add new class")
 print("Write 3 if you want to add new teacher")
 print("Write 4 if you want to add new student ")
+print("Write 5 if you want to add new schedule")
+print("Write 6 if you want to add new grade ")
 
 while flag is True:
     question = int(input("Write the operation number"))
@@ -112,6 +138,5 @@ while flag is True:
 
         my_student_class = Class.objects.get(name=name_of_the_class)
         added_student = add_student(name=my_name, surname=my_surname, student_class=my_student_class)
-
 
 
