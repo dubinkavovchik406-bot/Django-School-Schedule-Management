@@ -139,4 +139,26 @@ while flag is True:
         my_student_class = Class.objects.get(name=name_of_the_class)
         added_student = add_student(name=my_name, surname=my_surname, student_class=my_student_class)
 
+    elif question == 5:
+        my_day_of_week = input("Write the day of week(str)")
+        my_start_time = input("Write the start time(HH:MM:SS)")
+        name_of_subject = input("Write the name of your subject")
+        name_of_class = input("Write the name of your class")
+        name_of_teacher = input("Write the name of your teacher")
+        surname_of_teacher = input("Write the surname of your teacher")
 
+        my_subject = Subject.objects.get(name=name_of_subject)
+        my_schedule_class = Class.objects.get(name=name_of_class)
+        my_teacher = Teacher.objects.get(name=name_of_teacher, surname=surname_of_teacher)
+        add_schedule_entry(my_day_of_week, my_start_time, my_subject, my_schedule_class, my_teacher)
+
+    elif question == 6:
+        my_grade_value = int(input("Write the grade_value(ing)"))
+        my_date_str = input("Write the date")
+        name_of_student = input("Write the name of your student")
+        surname_of_student = input("Write the surname of your student")
+        name_of_subject = input("Write the name of your subject")
+
+        my_student = Student.objects.get(name=name_of_student, surname=surname_of_student)
+        my_subject = Subject.objects.get(name=name_of_subject)
+        add_grade(my_grade_value, my_date_str, my_student, my_subject)
